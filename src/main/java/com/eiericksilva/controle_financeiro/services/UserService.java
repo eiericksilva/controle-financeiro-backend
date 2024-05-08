@@ -3,6 +3,7 @@ package com.eiericksilva.controle_financeiro.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,5 +48,17 @@ public class UserService {
         User userToRemove = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException(userId));
         userRepository.delete(userToRemove);
     }
+
+
+  public UserDTO updateUser(Long userId, UserDTO userDTO) {
+      User userFound = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException(userId));
+
+      BeanUtils.copyProperties(userDTO, userFound, "id");
+
+      User updatedUser = userRepository.save(userFound);
+
+      return userMapper.toDTO(updatedUser);
+  }
+
 
 }
