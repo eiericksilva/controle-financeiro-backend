@@ -18,8 +18,6 @@ para a Gestão Financeira familiar. Pontos importantes:
     - Autenticação e Autorização
   - Entre outras funcionalidades...
 
-# BACKEND
-
 ## Padrão de Desenvolvimento
 - Padrão de Projetos em **Camadas**
   - **Service**: Contem toda as regras de negócio
@@ -39,16 +37,6 @@ para a Gestão Financeira familiar. Pontos importantes:
   - H2 (Para Ambiente de Teste)
   - MySQL (Para ambiente de Desenvolvimento)
 
-# FRONTEND
-## TECNOLOGIAS & FERRAMENTAS UTILIZADAS
-Template Primereact (Template Sakai)
-
-- **VSCode** (IDE utilziada para desenvolver o Frontend);
-- **NextJS**
-  - PrimeReact
-  - Template Sakai
-- Linguagem TypeScript
-- Axios (Ferramenta para fazer requisições para o Backend)
 ## SELOS
 
 ## IMAGENS / (VIDEOS / GIFS )
@@ -67,7 +55,7 @@ Deixe seu contato para possíveis tira-dúvidas
 
 Coloque aqui as ideias que deseja implementar futuramente
 
-## CCONTRIBUIÇÃO
+## CONTRIBUIÇÃO
 
 - Se estiver aberto para contribuições indique os requisitos de aceitação
 - Indique a documentação
