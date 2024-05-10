@@ -13,12 +13,18 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin
 public class UserController {
-
     @Autowired
     private UserService userService;
 
+    /*CREATE*/
+    @PostMapping
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public UserDTO createUser(@Valid @RequestBody UserDTO userDTO) {
+        return userService.createUser(userDTO);
+    }
+
+    /*READ*/
     @GetMapping
     public List<UserDTO> findAll() {
         return userService.findAllUsers();
@@ -29,22 +35,15 @@ public class UserController {
         return userService.findUserById(userId);
     }
 
-    @PostMapping
-    @ResponseStatus(code = HttpStatus.CREATED)
-    public UserDTO createUser(@Valid @RequestBody UserDTO userDTO) {
-        return userService.createUser(userDTO);
-    }
-
-    @DeleteMapping(value = "/{userId}")
-    public void delete(@PathVariable Long userId) {
-        userService.deleteUser(userId);
-    }
-
-
+    /*UPDATE*/
     @PutMapping(value = "/{userId}")
     public UserDTO update(@PathVariable Long userId, @RequestBody UserDTO userDTO) {
         return userService.updateUser(userId, userDTO);
     }
 
-
+    /*DELETE*/
+    @DeleteMapping(value = "/{userId}")
+    public void delete(@PathVariable Long userId) {
+        userService.deleteUser(userId);
+    }
 }

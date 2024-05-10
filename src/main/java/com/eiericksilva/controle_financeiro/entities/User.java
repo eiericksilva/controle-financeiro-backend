@@ -54,7 +54,6 @@ public class User {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
-
     }
 
     public Long getId() {

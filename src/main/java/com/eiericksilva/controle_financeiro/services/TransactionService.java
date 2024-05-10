@@ -1,11 +1,5 @@
 package com.eiericksilva.controle_financeiro.services;
 
-import java.math.BigDecimal;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.eiericksilva.controle_financeiro.dto.ExpenseTransactionDTO;
 import com.eiericksilva.controle_financeiro.dto.IncomeTransactionDTO;
 import com.eiericksilva.controle_financeiro.dto.TransferTransactionDTO;
@@ -15,10 +9,14 @@ import com.eiericksilva.controle_financeiro.entities.Account;
 import com.eiericksilva.controle_financeiro.entities.Transaction;
 import com.eiericksilva.controle_financeiro.exceptions.ResourceNotFoundException;
 import com.eiericksilva.controle_financeiro.repositories.TransactionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class TransactionService {
-
     @Autowired
     private TransactionRepository transactionRepository;
 
@@ -31,19 +29,10 @@ public class TransactionService {
     @Autowired
     private AccountService accountService;
 
-    public List<Transaction> findAllTransactions() {
-        return transactionRepository.findAll();
-    }
+    /*CREATE*/
+    public IncomeTransactionDTO createIncomeTransaction(IncomeTransactionDTO incomeTransactionDTO) {
 
-    public Transaction findTransactionById(Long id) {
-        return transactionRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
-    }
-
-    public IncomeTransactionDTO createIncomeTransaction(
-            Long destinationAccountId,
-            IncomeTransactionDTO incomeTransactionDTO) {
-
-        Account destinationAccount = accountMapper.toEntity(accountService.findAccountById(destinationAccountId));
+        Account destinationAccount = accountMapper.toEntity(accountService.findAccountById(incomeTransactionDTO.destinationAccount().getId()));
 
         destinationAccount.setBalance(destinationAccount.getBalance().add(incomeTransactionDTO.amount()));
 
@@ -57,11 +46,9 @@ public class TransactionService {
         return transactionMapper.toIncomeTransactionDTO(savedTransaction);
     }
 
-    public ExpenseTransactionDTO createExpenseTransaction(
-            Long sourceAccountId,
-            ExpenseTransactionDTO expenseTransactionDTO) {
+    public ExpenseTransactionDTO createExpenseTransaction(ExpenseTransactionDTO expenseTransactionDTO) {
 
-        Account sourceAccount = accountMapper.toEntity(accountService.findAccountById(sourceAccountId));
+        Account sourceAccount = accountMapper.toEntity(accountService.findAccountById(expenseTransactionDTO.sourceAccount().getId()));
 
         accountService.checkSufficientBalance(sourceAccount, expenseTransactionDTO.amount());
 
@@ -78,13 +65,9 @@ public class TransactionService {
         return transactionMapper.toExpenseTransactionDTO(savedTransaction);
     }
 
-    public TransferTransactionDTO createTransferTransaction(
-            Long sourceAccountId,
-            Long destinationAccountId,
-            TransferTransactionDTO transferTransactionDTO) {
-
-        Account sourceAccount = accountMapper.toEntity(accountService.findAccountById(sourceAccountId));
-        Account destinationAccount = accountMapper.toEntity(accountService.findAccountById(destinationAccountId));
+    public TransferTransactionDTO createTransferTransaction(TransferTransactionDTO transferTransactionDTO) {
+        Account sourceAccount = accountMapper.toEntity(accountService.findAccountById(transferTransactionDTO.sourceAccount().getId()));
+        Account destinationAccount = accountMapper.toEntity(accountService.findAccountById(transferTransactionDTO.destinationAccount().getId()));
         Transaction transaction = transactionMapper.transferDTOtoEntity(transferTransactionDTO);
 
         BigDecimal transferValue = transaction.getAmount();
@@ -100,8 +83,24 @@ public class TransactionService {
         transaction.setSourceAccount(sourceAccount);
         transaction.setDestinationAccount(destinationAccount);
 
-        return transactionMapper.toTransferTransactionDTO(
-                transactionRepository.save(transaction));
+        return transactionMapper.toTransferTransactionDTO(transactionRepository.save(transaction));
     }
+
+    /*READ*/
+    public List<Transaction> findAllTransactions() {
+        return transactionRepository.findAll();
+    }
+
+    public Transaction findTransactionById(Long id) {
+        return transactionRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+    }
+    /*UPDATE*/
+    /*DELETE*/
+    public void deleteTransactionById(Long transactionId) {
+         transactionRepository.delete(
+                 transactionRepository.findById(transactionId).orElseThrow(() -> new ResourceNotFoundException(transactionId))
+         );
+    }
+
 
 }

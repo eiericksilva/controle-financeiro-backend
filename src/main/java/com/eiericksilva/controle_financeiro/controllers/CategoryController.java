@@ -2,13 +2,9 @@ package com.eiericksilva.controle_financeiro.controllers;
 
 import java.util.List;
 
+import com.eiericksilva.controle_financeiro.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.eiericksilva.controle_financeiro.entities.Category;
 import com.eiericksilva.controle_financeiro.entities.Subcategory;
@@ -17,10 +13,20 @@ import com.eiericksilva.controle_financeiro.services.CategoryService;
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
-
     @Autowired
     private CategoryService categoryService;
+    /*CREATE*/
+    @PostMapping
+    public Category createCategory(@RequestBody Category category) {
+        return categoryService.createCategory(category);
+    }
 
+    @PostMapping("{categoryId}/subcategories")
+    public Category addSubcategory(@PathVariable Long categoryId, @RequestBody Subcategory subcategory) {
+        return categoryService.addSubcategory(categoryId, subcategory);
+    }
+
+    /*READ*/
     @GetMapping
     public List<Category> findAllCategories() {
         return categoryService.findAllCategories();
@@ -31,13 +37,24 @@ public class CategoryController {
         return categoryService.findCategoryById(id);
     }
 
-    @PostMapping
-    public Category createCategory(@RequestBody Category category) {
-        return categoryService.createCategory(category);
+    /*UPDATE*/
+    @PutMapping(value = "/{categoryId}")
+    public Category update(@PathVariable Long categoryId, @RequestBody Category category) {
+        return categoryService.updateCategory(categoryId, category);
     }
 
-    @PostMapping("{categoryId}/subcategories")
-    public Category addSubcategory(@PathVariable Long categoryId, @RequestBody Subcategory subcategory) {
-        return categoryService.addSubcategory(categoryId, subcategory);
+    /*DELETE*/
+    @DeleteMapping(value = "/{categoryId}")
+    public void delete(@PathVariable Long categoryId) {
+        categoryService.deleteCategory(categoryId);
     }
+
+    @DeleteMapping("{categoryId}/subcategories/{subcategoryId}")
+    public Category deleteSubcategory(@PathVariable Long categoryId, @PathVariable Long subcategoryId) {
+        return categoryService.deleteSubcategory(categoryId, subcategoryId);
+    }
+
+
+
+
 }
