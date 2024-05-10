@@ -29,7 +29,7 @@ public class Account {
     @NotBlank(message = "Account name is required")
     private String name;
 
-    @DecimalMin(value = "0.01", message = "Balance must be greater than or equal to 0.01")
+    @DecimalMin(value = "0.00")
     private BigDecimal balance;
 
     @JsonIgnore
