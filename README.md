@@ -28,8 +28,10 @@ para a Gestão Financeira familiar. Pontos importantes:
 
 ## TECNOLOGIAS & FERRAMENTAS UTILIZADAS
 - **Intellij IDEA** (IDE para desenvolver o Backend Java);
+- **Maven** (Ferramenta de Build utilizada);
 - **MySQL Workbench** (Client para o SGBD do MySQL);
 - **Intellij IDEA** (IDE para desenvolver o Backend Java);
+- **JUnit 5** (Framework para desenvolvimento de Testes Unitários);
 - **Java**:
   - JPA (Java Persistence API): Uma especificação para trabalhar com Mapeamento Entidade Relacionamento
   - Hibernate (Framework ORM): Utilizado para aplicação do JPA
