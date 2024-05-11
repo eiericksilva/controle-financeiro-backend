@@ -7,6 +7,7 @@ import com.eiericksilva.controle_financeiro.dto.mapper.AccountMapper;
 import com.eiericksilva.controle_financeiro.dto.mapper.TransactionMapper;
 import com.eiericksilva.controle_financeiro.entities.Account;
 import com.eiericksilva.controle_financeiro.entities.Transaction;
+import com.eiericksilva.controle_financeiro.exceptions.InsufficientMinimumValueException;
 import com.eiericksilva.controle_financeiro.exceptions.ResourceNotFoundException;
 import com.eiericksilva.controle_financeiro.repositories.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +32,13 @@ public class TransactionService {
 
     /*CREATE*/
     public IncomeTransactionDTO createIncomeTransaction(IncomeTransactionDTO incomeTransactionDTO) {
+        BigDecimal amount = incomeTransactionDTO.amount();
+
+        verifyIsInsufficientMinimumValueAmount(amount);
 
         Account destinationAccount = accountMapper.toEntity(accountService.findAccountById(incomeTransactionDTO.destinationAccount().getId()));
 
-        destinationAccount.setBalance(destinationAccount.getBalance().add(incomeTransactionDTO.amount()));
+        destinationAccount.setBalance(destinationAccount.getBalance().add(amount));
 
         accountService.saveAccount(accountMapper.toDTO(destinationAccount));
 
@@ -47,12 +51,15 @@ public class TransactionService {
     }
 
     public ExpenseTransactionDTO createExpenseTransaction(ExpenseTransactionDTO expenseTransactionDTO) {
+        BigDecimal amount = expenseTransactionDTO.amount();
 
         Account sourceAccount = accountMapper.toEntity(accountService.findAccountById(expenseTransactionDTO.sourceAccount().getId()));
 
-        accountService.checkSufficientBalance(sourceAccount, expenseTransactionDTO.amount());
 
-        sourceAccount.setBalance(sourceAccount.getBalance().subtract(expenseTransactionDTO.amount()));
+        accountService.checkSufficientBalance(sourceAccount, amount);
+        verifyIsInsufficientMinimumValueAmount(amount);
+
+        sourceAccount.setBalance(sourceAccount.getBalance().subtract(amount));
 
         accountService.saveAccount(accountMapper.toDTO(sourceAccount));
 
@@ -70,12 +77,14 @@ public class TransactionService {
         Account destinationAccount = accountMapper.toEntity(accountService.findAccountById(transferTransactionDTO.destinationAccount().getId()));
         Transaction transaction = transactionMapper.transferDTOtoEntity(transferTransactionDTO);
 
-        BigDecimal transferValue = transaction.getAmount();
+        BigDecimal amount = transaction.getAmount();
 
-        accountService.checkSufficientBalance(sourceAccount, transferValue);
+        verifyIsInsufficientMinimumValueAmount(amount);
 
-        sourceAccount.setBalance(sourceAccount.getBalance().subtract(transferValue));
-        destinationAccount.setBalance(destinationAccount.getBalance().add(transferValue));
+        accountService.checkSufficientBalance(sourceAccount, amount);
+
+        sourceAccount.setBalance(sourceAccount.getBalance().subtract(amount));
+        destinationAccount.setBalance(destinationAccount.getBalance().add(amount));
 
         accountService.saveAccount(accountMapper.toDTO(sourceAccount));
         accountService.saveAccount(accountMapper.toDTO(destinationAccount));
@@ -94,13 +103,21 @@ public class TransactionService {
     public Transaction findTransactionById(Long id) {
         return transactionRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
+
     /*UPDATE*/
     /*DELETE*/
     public void deleteTransactionById(Long transactionId) {
-         transactionRepository.delete(
-                 transactionRepository.findById(transactionId).orElseThrow(() -> new ResourceNotFoundException(transactionId))
-         );
+        transactionRepository.delete(
+                transactionRepository.findById(transactionId).orElseThrow(() -> new ResourceNotFoundException(transactionId))
+        );
     }
 
+    /*AUXILIARES*/
+    public void verifyIsInsufficientMinimumValueAmount(BigDecimal amount) {
+        BigDecimal minimumValue = BigDecimal.valueOf(0.01);
 
+        if (amount.compareTo(minimumValue) < 0) {
+            throw new InsufficientMinimumValueException();
+        }
+    }
 }

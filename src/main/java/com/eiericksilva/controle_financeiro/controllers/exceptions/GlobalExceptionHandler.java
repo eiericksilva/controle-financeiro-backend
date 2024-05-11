@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.eiericksilva.controle_financeiro.exceptions.InsufficientMinimumValueException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -61,4 +62,16 @@ public class GlobalExceptionHandler {
                 return ResponseEntity.status(status).body(err);
         }
 
+        @ExceptionHandler(InsufficientMinimumValueException.class)
+        public ResponseEntity<SchemaError> handleInsufficientMinimumValueException(InsufficientMinimumValueException e,
+                                                                              HttpServletRequest request) {
+                HttpStatus status = HttpStatus.BAD_REQUEST;
+                SchemaError err = new SchemaError(
+                        LocalDateTime.now(),
+                        status.value(),
+                        List.of(e.getMessage()),
+                        request.getRequestURI());
+
+                return ResponseEntity.status(status).body(err);
+        }
 }
