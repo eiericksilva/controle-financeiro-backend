@@ -1,15 +1,13 @@
 package com.eiericksilva.controle_financeiro.controllers;
 
-import java.util.List;
-
+import com.eiericksilva.controle_financeiro.dto.UserDTO;
+import com.eiericksilva.controle_financeiro.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import com.eiericksilva.controle_financeiro.dto.UserDTO;
-import com.eiericksilva.controle_financeiro.services.UserService;
-
-import jakarta.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
