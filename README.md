@@ -32,6 +32,7 @@ para a Gestão Financeira familiar. Pontos importantes:
 - **MySQL Workbench** (Client para o SGBD do MySQL);
 - **Intellij IDEA** (IDE para desenvolver o Backend Java);
 - **JUnit 5** (Framework para desenvolvimento de Testes Unitários);
+
 - **Java**:
   - JPA (Java Persistence API): Uma especificação para trabalhar com Mapeamento Entidade Relacionamento
   - Hibernate (Framework ORM): Utilizado para aplicação do JPA
@@ -40,6 +41,9 @@ para a Gestão Financeira familiar. Pontos importantes:
   - MySQL (Para ambiente de Desenvolvimento)
 
 ## SELOS
+
+- ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
+- ![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
 
 ## IMAGENS / VIDEOS / GIFS 
 ![ConceitualControleFinanceiro.png](src/main/java/com/eiericksilva/controle_financeiro/assets/ConceitualControleFinanceiro.png)
@@ -57,21 +61,19 @@ Escolha o menor Caso de Uso.
 
 Deixe seu contato para possíveis tira-dúvidas
 
-## ROADMAP
+## IMPLEMENTAÇÕES FUTURAS
 
-Coloque aqui as ideias que deseja implementar futuramente
+1. [ ] Autenticação & Autorização
+2. [ ] Paginação
+3. [ ] Testes Unitários
 
 ## CONTRIBUIÇÃO
 
-- Se estiver aberto para contribuições indique os requisitos de aceitação
-- Indique a documentação
-- Fale as Variáveis de Ambiente que devem definir
-- Comandos para executar testes
+- **Spring Doc Open API(Swagger)** - [IR PARA A DOCUMENTAÇÃO](http://localhost:8080/api/swagger-ui/index.html);
 
 ## AUTORES E AGRADECIMENTOS
-Erick Oliveira da Silva
-
-## LICENÇA
+[![Autor](https://img.shields.io/badge/Autor-ERICK_SILVA-orange)](mailto:ericksilvaredes@gmail.com)
 
 ## STATUS DO PROJETO
-Projeto está em processo de **Desenvolvimento** e estou desenvolvendo paralelamente o Backend e o Frontend.
+[![Status do Projeto](https://img.shields.io/badge/Status-Em_Desenvolvimento-green)](https://github.com/eiericksilva/controle-financeiro-backend)
+q
