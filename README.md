@@ -42,7 +42,7 @@ para a Gestão Financeira familiar. Pontos importantes:
 ## SELOS
 
 ## IMAGENS / VIDEOS / GIFS 
-![ConceitualControleFinanceiro.png](..%2F..%2FUsers%2Ferick%2FOneDrive%2FAmbiente%20de%20Trabalho%2FContFinanc%2FConceitualControleFinanceiro.png)
+![ConceitualControleFinanceiro.png](src/main/java/com/eiericksilva/controle_financeiro/assets/ConceitualControleFinanceiro.png)
 Esta é apenas uma representação visual  **(modelo conceitual)** do software. 
 Desculpe por eventuais erros técnicos que possa haver Diagrama. 
 Este modelo está sendo utilizado como base para o desenvolvimento, mas ao longo do processo de implementação ajustes e adaptações podem ter 
