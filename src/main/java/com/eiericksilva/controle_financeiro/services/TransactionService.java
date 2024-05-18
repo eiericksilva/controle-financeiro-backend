@@ -7,6 +7,7 @@ import com.eiericksilva.controle_financeiro.dto.mapper.AccountMapper;
 import com.eiericksilva.controle_financeiro.dto.mapper.TransactionMapper;
 import com.eiericksilva.controle_financeiro.entities.Account;
 import com.eiericksilva.controle_financeiro.entities.Transaction;
+import com.eiericksilva.controle_financeiro.enums.TransactionStatus;
 import com.eiericksilva.controle_financeiro.exceptions.InsufficientMinimumValueException;
 import com.eiericksilva.controle_financeiro.exceptions.ResourceNotFoundException;
 import com.eiericksilva.controle_financeiro.repositories.TransactionRepository;
@@ -44,6 +45,7 @@ public class TransactionService {
 
         Transaction transaction = transactionMapper.incomeDTOtoEntity(incomeTransactionDTO);
         transaction.setDestinationAccount(destinationAccount);
+        transaction.setSourceAccount(null);
 
         Transaction savedTransaction = transactionRepository.save(transaction);
 
@@ -66,6 +68,7 @@ public class TransactionService {
         Transaction transaction = transactionMapper.expenseDTOtoEntity(expenseTransactionDTO);
 
         transaction.setSourceAccount(sourceAccount);
+        transaction.setDestinationAccount(null);
 
         Transaction savedTransaction = transactionRepository.save(transaction);
 
@@ -96,8 +99,10 @@ public class TransactionService {
     }
 
     /*READ*/
+
     public List<Transaction> findAllTransactions() {
-        return transactionRepository.findAll();
+
+        return transactionRepository.findAllTransactionsOrderByDateDesc();
     }
 
     public Transaction findTransactionById(Long id) {
@@ -107,9 +112,11 @@ public class TransactionService {
     /*UPDATE*/
     /*DELETE*/
     public void deleteTransactionById(Long transactionId) {
-        transactionRepository.delete(
-                transactionRepository.findById(transactionId).orElseThrow(() -> new ResourceNotFoundException(transactionId))
-        );
+        var transactionFound = transactionRepository.findById(transactionId)
+                .orElseThrow(() -> new ResourceNotFoundException(transactionId));
+        transactionFound.setStatus(TransactionStatus.INACTIVE);
+        transactionRepository.save(transactionFound);
+
     }
 
     /*AUXILIARES*/

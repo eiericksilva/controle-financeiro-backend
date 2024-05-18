@@ -1,38 +1,28 @@
 package com.eiericksilva.controle_financeiro.entities;
 
+import com.eiericksilva.controle_financeiro.enums.TransactionStatus;
+import com.eiericksilva.controle_financeiro.enums.TransactionType;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import org.hibernate.annotations.Where;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-import com.eiericksilva.controle_financeiro.enums.TransactionType;
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.DecimalMin;
 
 @Entity
 @Table(name = "tb_transaction")
 public class Transaction {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
+    private final LocalDateTime timeStamp = LocalDateTime.now();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
-    private final LocalDateTime timeStamp = LocalDateTime.now();
-
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
 
@@ -51,6 +41,10 @@ public class Transaction {
     private String description;
     private String observation;
     private Boolean isConfirmed;
+
+    @Enumerated(EnumType.STRING)
+    private TransactionStatus status = TransactionStatus.ACTIVE;
+
 
     @ManyToMany
     @JoinTable(name = "transaction_tag", joinColumns = @JoinColumn(name = "transaction_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
@@ -96,12 +90,24 @@ public class Transaction {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public BigDecimal getAmount() {
         return amount;
     }
 
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount.setScale(4, RoundingMode.HALF_EVEN);
+    }
+
     public LocalDate getExpiredDate() {
         return expiredDate;
+    }
+
+    public void setExpiredDate(LocalDate expiredDate) {
+        this.expiredDate = expiredDate;
     }
 
     public LocalDateTime getTimeStamp() {
@@ -112,24 +118,48 @@ public class Transaction {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getObservation() {
         return observation;
+    }
+
+    public void setObservation(String observation) {
+        this.observation = observation;
     }
 
     public Boolean getIsConfirmed() {
         return isConfirmed;
     }
 
+    public void setIsConfirmed(Boolean isConfirmed) {
+        this.isConfirmed = isConfirmed;
+    }
+
     public TransactionType getTransactionType() {
         return transactionType;
+    }
+
+    public void setTransactionType(TransactionType transactionType) {
+        this.transactionType = transactionType;
     }
 
     public Category getCategory() {
         return category;
     }
 
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     public Subcategory getSubcategory() {
         return subcategory;
+    }
+
+    public void setSubcategory(Subcategory subcategory) {
+        this.subcategory = subcategory;
     }
 
     public Set<Tag> getTags() {
@@ -140,40 +170,20 @@ public class Transaction {
         this.tags = tags;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Boolean getConfirmed() {
+        return isConfirmed;
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount.setScale(4, RoundingMode.HALF_EVEN);
+    public void setConfirmed(Boolean confirmed) {
+        isConfirmed = confirmed;
     }
 
-    public void setExpiredDate(LocalDate expiredDate) {
-        this.expiredDate = expiredDate;
+    public TransactionStatus getStatus() {
+        return status;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setObservation(String observation) {
-        this.observation = observation;
-    }
-
-    public void setIsConfirmed(Boolean isConfirmed) {
-        this.isConfirmed = isConfirmed;
-    }
-
-    public void setTransactionType(TransactionType transactionType) {
-        this.transactionType = transactionType;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public void setSubcategory(Subcategory subcategory) {
-        this.subcategory = subcategory;
+    public void setStatus(TransactionStatus status) {
+        this.status = status;
     }
 
     public void addTag(Tag tag) {
