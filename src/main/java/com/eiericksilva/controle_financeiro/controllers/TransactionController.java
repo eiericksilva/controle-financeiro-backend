@@ -13,6 +13,7 @@ import com.eiericksilva.controle_financeiro.services.TransactionService;
 
 @RestController
 @RequestMapping("/transactions")
+@CrossOrigin
 public class TransactionController {
     @Autowired
     private TransactionService transactionService;
@@ -50,7 +51,7 @@ public class TransactionController {
     /*UPDATE*/
 
     /*DELETE*/
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{transactionId}")
     public void delete(@PathVariable Long transactionId) {
         transactionService.deleteTransactionById(transactionId);
     }

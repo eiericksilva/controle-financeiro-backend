@@ -59,4 +59,5 @@ public class UserService {
         User userToRemove = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException(userId));
         userRepository.delete(userToRemove);
     }
+
 }
