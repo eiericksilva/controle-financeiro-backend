@@ -13,12 +13,13 @@ import com.eiericksilva.controle_financeiro.services.TransactionService;
 
 @RestController
 @RequestMapping("/transactions")
-@CrossOrigin
+
 public class TransactionController {
     @Autowired
     private TransactionService transactionService;
 
     /*CREATE*/
+
     @PostMapping("/income")
     public IncomeTransactionDTO createIncomeTransaction(
             @RequestBody IncomeTransactionDTO incomeTransactionDTO) {

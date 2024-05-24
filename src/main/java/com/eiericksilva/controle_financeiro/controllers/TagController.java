@@ -10,7 +10,7 @@ import com.eiericksilva.controle_financeiro.services.TagService;
 
 @RestController
 @RequestMapping("/tags")
-@CrossOrigin
+
 public class TagController {
     @Autowired
     private TagService tagService;

@@ -12,7 +12,7 @@ import com.eiericksilva.controle_financeiro.services.CategoryService;
 
 @RestController
 @RequestMapping("/categories")
-@CrossOrigin
+
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;

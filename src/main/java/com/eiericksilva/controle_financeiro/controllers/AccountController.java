@@ -14,7 +14,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/accounts")
-@CrossOrigin
+
 public class AccountController {
 
     @Autowired
