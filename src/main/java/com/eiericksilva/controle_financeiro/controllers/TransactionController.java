@@ -13,7 +13,6 @@ import com.eiericksilva.controle_financeiro.services.TransactionService;
 
 @RestController
 @RequestMapping("/transactions")
-
 public class TransactionController {
     @Autowired
     private TransactionService transactionService;
@@ -32,7 +31,8 @@ public class TransactionController {
         return transactionService.createExpenseTransaction(expenseTransactionDTO);
     }
 
-    @PostMapping("/tranfer")
+
+    @PostMapping("/transfer")
     public TransferTransactionDTO createTransferTransaction(
             @RequestBody TransferTransactionDTO transferTransactionDTO) {
         return transactionService.createTransferTransaction(

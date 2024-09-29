@@ -5,22 +5,20 @@ import com.eiericksilva.controle_financeiro.dto.mapper.UserMapper;
 import com.eiericksilva.controle_financeiro.entities.User;
 import com.eiericksilva.controle_financeiro.repositories.UserRepository;
 import com.eiericksilva.controle_financeiro.services.UserService;
-import net.bytebuddy.matcher.ElementMatchers;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static net.bytebuddy.matcher.ElementMatchers.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class UserTest {
@@ -53,7 +51,7 @@ public class UserTest {
         // Assert
         assertNotNull(createdUser, "The created user should not be null");
         assertEquals("joaozinho", createdUser.username(), "The username should be 'joaozinho' ");
-        assertEquals("Joao", createdUser.firstName(),"The firstName should be 'Joao' ");
+        assertEquals("Joao", createdUser.firstName(), "The firstName should be 'Joao' ");
         assertEquals("Da Roça", createdUser.lastName(), "The lastName should be 'Da Roça' ");
     }
 

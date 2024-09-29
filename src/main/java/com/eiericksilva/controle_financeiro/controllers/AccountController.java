@@ -1,5 +1,6 @@
 package com.eiericksilva.controle_financeiro.controllers;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.eiericksilva.controle_financeiro.dto.UserDTO;
@@ -45,6 +46,11 @@ public class AccountController {
     @PutMapping("/{accountId}")
     public AccountDTO update(@PathVariable Long accountId, @RequestBody AccountDTO accountDTO) {
         return accountService.updateAccount(accountId, accountDTO);
+    }
+
+    @PutMapping("/reset/{accountId}")
+    public AccountDTO resetBalanceAccount(@PathVariable Long accountId) {
+        return accountService.resetBalanceAccount(accountId);
     }
 
     /*DELETE*/

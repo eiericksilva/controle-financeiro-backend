@@ -72,6 +72,13 @@ public class AccountService {
         return accountMapper.toDTO(updatedAccount);
     }
 
+    public AccountDTO resetBalanceAccount(Long accountId) {
+        Account accountFound = accountMapper.toEntity(findAccountById(accountId));
+        accountFound.setBalance(BigDecimal.ZERO);
+        Account updatedAccount = accountRepository.save(accountFound);
+        return accountMapper.toDTO(updatedAccount);
+    }
+
     /*DELETE*/
     public void deleteAccount(Long accountId) {
         accountRepository.delete(accountMapper.toEntity(findAccountById(accountId)));

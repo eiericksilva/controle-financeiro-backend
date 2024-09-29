@@ -5,13 +5,9 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "tb_tags")
@@ -23,6 +19,9 @@ public class Tag {
 
     @NotBlank(message = "Tag name is required")
     private String name;
+    @Column(length = 7)
+    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$", message = "The color must be in hexadecimal format, for example, FFFFFF or FFF")
+    private String color;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "tags")
@@ -31,11 +30,16 @@ public class Tag {
     public Tag() {
     }
 
-    public Tag(Long id, String name) {
+    public Tag(Long id, String name, String color) {
         this.id = id;
         this.name = name;
+        this.color = color;
 
     }
+
+
+
+
 
     public Long getId() {
         return id;
@@ -49,12 +53,20 @@ public class Tag {
         return transactions;
     }
 
+    public String getColor() {
+        return color;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public void addTransaction(Transaction transaction) {
